@@ -1,0 +1,31 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+panel_iframe:
+  portainer:
+    title: "Portainer"
+    url: "http://172.17.0.2:9000"
+    icon: mdi:docker
+  vscode:
+    title: "VSCode"
+    url: "http://172.18.0.3:8080/"
+    icon: mdi:microsoft-visual-studio-code
+  esphome:
+    title: "ESPHome"
+    url: "http://172.18.0.2:6052"
+    icon: mdi:chip
+  zigbee2mqtt:
+    title: "Zigbee2MQTT"
+    url: "http://172.18.0.2:8080"
+    icon: mdi:zigbee
+
+
