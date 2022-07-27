@@ -1,4 +1,5 @@
 
+
 # Loads default set of integrations. Do not remove.
 default_config:
 
@@ -10,6 +11,67 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 
+homeassistant:
+  customize: !include customize.yaml
+#secret: !include_dir_merge_list secrets.yaml
+  
+frontend:
+  themes: !include_dir_merge_named themes
+ 
+mobile_app:
+    
+alexa:
+  smart_home:
+    filter:
+      include_domains:
+        - switch
+  
+esphome:
+
+ffmpeg:
+
+device_tracker:
+  - platform: sky_hub
+    host: 192.168.0.1
+    interval_seconds: 10
+    consider_home: 180
+    new_device_defaults:
+      track_new_devices: false
+      
+      
+telegram_bot:
+  - platform: broadcast
+    api_key: !secret telegram_token
+    allowed_chat_ids:
+      - -732826663
+      - 5140970458
+        
+notify:
+  - platform: telegram
+    name: TELEGRAM_NOTIF
+    chat_id: -732826663      
+    
+logger:
+  default: info
+  logs:
+    homeassistant.components.automation: debug
+    homeassistant.components.script: info
+    custom_components.a0d7b954_ssh: debug
+    homeassistant.components.automation.git_backup: debug
+
+binary_sensor:
+  - platform: threshold 
+    name: outside illuminance 
+    entity_id: sensor.skylight_illuminance 
+    upper: 115
+
+sensor:
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+      - 'date_time'        
+
 panel_iframe:
   portainer:
     title: "Portainer"
@@ -17,15 +79,14 @@ panel_iframe:
     icon: mdi:docker
   vscode:
     title: "VSCode"
-    url: "http://172.18.0.3:8080/"
+    url: "http://0.0.0.0:8443/"
     icon: mdi:microsoft-visual-studio-code
   esphome:
     title: "ESPHome"
-    url: "http://172.18.0.2:6052"
+    url: "http://0.0.0.0:6052"
     icon: mdi:chip
   zigbee2mqtt:
     title: "Zigbee2MQTT"
-    url: "http://172.18.0.2:8080"
+    url: "http://0.0.0.0:8099"
     icon: mdi:zigbee
-
 
