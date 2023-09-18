@@ -11,21 +11,57 @@ services:
     privileged: true
     ports:
       - "8123:8123"
-
+      
+ # eufysecurity:
+ #   container_name: eufysecurity
+ #   image: bropat/eufy-security-ws:0.9.2
+ #   environment:
+ #     - USERNAME=${EUFY_USER}
+ #    - PASSWORD=${EUFY_PASS}
+ #     - COUNTRY=${EUFY_CC}
+ #   volumes:
+ #     - /home/tomas/dev/docker/eufysecurity:/data
+ #   ports:
+ #     - "3000:3000"
+      
+#  rstpserver:
+#    container_name: rstpserver
+#    image: aler9/rtsp-simple-server:latest
+#    environment:
+#      - RTSP_PROTOCOLS=tcp
+#    ports:
+#      - "1935:1935"
+#      - "8554:8554"
+      
+      
+  #VSCode
+#  vscode:
+#    container_name: vscode
+#    image: codercom/code-server
+#    volumes:
+#      # Set <project dir> to the directory you want to open in VS Code.
+#      - /home/tomas/dev/docker/homeassistant:/config
+#      # <vs code config> should point to a local dir where vs code stores its data.
+#      - /home/tomas/dev/docker:/home/coder/.local/share/code-server
+#    ports:
+#      - "8443:8080"
+#    command: code-server --auth none --disable-telemetry /config
+#    restart: unless-stopped
+  
   #Mosquitto
   mosquitto:
     container_name: mqtt
     image: eclipse-mosquitto
     ports:
-      - "1083:1083"
+      - "1883:1883"
       # This port is for Webhooks
-      - "9001:9001"
+      # - "9001:9001"
     volumes:
       - /home/tomas/dev/docker/mosquitto/config:/mosquitto/config
       - /home/tomas/dev/docker/mosquitto/data:/mosquitto/data
       - /home/tomas/dev/docker/mosquitto/log:/mosquitto/log
-
-  #ESPHome
+      
+  #ESPHome 
   esphome:
     container_name: esphome
     image: esphome/esphome
@@ -36,12 +72,9 @@ services:
       - /home/tomas/dev/docker/esphome:/config:rw
       # Use local time for logging timestamps
       - /etc/localtime:/etc/localtime:ro
-    # You do have to map a serial port here. Determine your port and uncomment.
-    #devices:
-    #  - /dev/ttyAMC0:/dev/ttyAMC0
     restart: always
     network_mode: host
-
+    
   #Zigbee2MQTT
   zigbee2mqtt:
     container_name: zigbee2mqtt
@@ -54,7 +87,12 @@ services:
     ports:
       # Frontend port
       - 8080:8080
-      - 8099:809
+      - 8099:8099
+    devices:
+      - /dev/ttyAMCO
+    deploy:
+      resources:
+        limits:
+          memory: 100M
     restart: always
     privileged: true
-
