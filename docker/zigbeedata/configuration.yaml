@@ -1,0 +1,17 @@
+frontend:
+  port: 8099
+mqtt:
+  server: mqtt://192.168.0.25:1883
+  user: mqtt-user
+  password: password01
+  client_id: zb2m
+  keepalive: 60
+  reject_unauthorized: true
+  version: 4
+  include_device_information: true
+serial:
+  port: /dev/ttyACM0
+  adapter: auto
+devices:
+  '0x00158d000760c26b':
+    friendly_name: '0x00158d000760c26b'
